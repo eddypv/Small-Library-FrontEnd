@@ -1,18 +1,45 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
+import Login from './components/Login'
 import NewBook from './components/NewBook'
 
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [token, setToken] = useState("");
+  // get token
+  useEffect(()=>{
+    const tokenSaved = localStorage.getItem("library-token");
+    setToken(tokenSaved)
+
+  },[])
+
+  const loginHandle = (newToken)=> {
+    localStorage.setItem("library-token", newToken)
+    setToken(newToken)
+    // setPage("books")
+  }
+  const logoutHandle = ()=>{
+    localStorage.removeItem("library-token")
+    setToken("")
+    setPage("login")
+  }
 
   return (
     <div>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        {
+          token 
+            ? <>
+                <button onClick={() => setPage('add')}>add book</button>
+                <button onClick={logoutHandle}>Logout</button>
+              </>
+            : <button onClick={() => setPage('login')}>Login</button>
+        }
+        
       </div>
 
       <Authors
@@ -23,8 +50,13 @@ const App = () => {
         show={page === 'books'}
       />
 
-      <NewBook
-        show={page === 'add'}
+      <NewBook show={page === 'add'} 
+      />
+      
+      
+      <Login 
+        show={page === 'login'}
+        loginHandle={loginHandle}
       />
 
     </div>
