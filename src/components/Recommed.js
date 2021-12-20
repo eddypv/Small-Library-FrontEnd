@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import  { gql, useLazyQuery, useQuery} from '@apollo/client'
+import { ALL_BOOKS } from './Books'
 const ME = gql`
 query me{
   me {
@@ -9,8 +10,8 @@ query me{
   }
 }
 `
-const BOOKS_GENRE = gql`
-query allBooks($genre:String){
+export const BOOKS_RECOMMED = gql`
+query booksRecommed($genre:String){
   allBooks(genre: $genre) {
     id
     genres
@@ -22,9 +23,9 @@ query allBooks($genre:String){
   }
 }  
 `
-const Recommend = (props) =>{
+export const Recommend = (props) =>{
   const result= useQuery(ME);
-  const [filterBooks, resultBooks] = useLazyQuery(BOOKS_GENRE)
+  const [filterBooks, resultBooks] = useLazyQuery(BOOKS_RECOMMED)
   const [books, setBooks] = useState([])
   
   useEffect(()=>{
@@ -72,4 +73,4 @@ const Recommend = (props) =>{
     </table>
   </div>) 
 }
-export default Recommend
+

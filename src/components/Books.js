@@ -26,9 +26,10 @@ const genres = [
 const Books = (props) => {
   const [getBooks, result] = useLazyQuery(ALL_BOOKS)
   const [books, setBooks] = useState([])
-  useEffect(()=>{
+  /*useEffect(()=>{
     getBooks({variables:{genre:""}})
-  }, [getBooks])
+    // eslint-disable-next-line
+  }, [])*/
   useEffect(()=>{
     if(result.data){
       setBooks(result.data.allBooks)

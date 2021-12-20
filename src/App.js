@@ -4,7 +4,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
 import NewBook from './components/NewBook'
-import Recommend  from './components/Recommed'
+import {Recommend}  from './components/Recommed'
 import { useApolloClient } from '@apollo/client'
 const App = () => {
   const [page, setPage] = useState('authors')
