@@ -5,11 +5,37 @@ import Books from './components/Books'
 import Login from './components/Login'
 import NewBook from './components/NewBook'
 import {Recommend}  from './components/Recommed'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useSubscription,gql } from '@apollo/client'
+const BOOK_ADDED = gql`
+  subscription{
+    bookAdded {
+      id
+      genres
+      published
+      title
+      author {
+        id
+        name
+        born
+      }
+    }
+  }
+`
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState("")
   const client = useApolloClient()
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData:({subscriptionData})=>{
+      const {data} = subscriptionData
+      console.log(data)
+      if(data.bookAdded){
+        window.alert(`New book creaated :${data.bookAdded.title}`)
+        console.log('Subscription',data.bookAdded)
+      }
+      
+    }
+  })
   // get token
   useEffect(()=>{
     const tokenSaved = localStorage.getItem("library-token");
