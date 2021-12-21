@@ -53,11 +53,16 @@ const App = () => {
       <Books
         show={page === 'books'}
       />
-
-      <NewBook show={page === 'add'} 
-      />
+      {
+        token 
+        ?
+        <>
+          <NewBook show={page === 'add'} />
+          <Recommend show={page === 'recommend'}  />
+        </>
+        : null
+      }
       
-      <Recommend show={page === 'recommend'}  />
       <Login 
         show={page === 'login'}
         loginHandle={loginHandle}
